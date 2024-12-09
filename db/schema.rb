@@ -10,12 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_09_195147) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_09_213225) do
   create_table "tipo_cargas", force: :cascade do |t|
     t.string "nombre"
     t.string "descripcion"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "trayectos", force: :cascade do |t|
+    t.text "descripcion"
+    t.integer "tipo_carga_id", null: false
+    t.string "destino"
+    t.date "fecha_salida"
+    t.date "fecha_llegada"
+    t.integer "vehículo_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tipo_carga_id"], name: "index_trayectos_on_tipo_carga_id"
+    t.index ["user_id"], name: "index_trayectos_on_user_id"
+    t.index ["vehículo_id"], name: "index_trayectos_on_vehículo_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -39,4 +54,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_09_195147) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "trayectos", "tipo_cargas"
+  add_foreign_key "trayectos", "users"
+  add_foreign_key "trayectos", "vehículos"
 end
